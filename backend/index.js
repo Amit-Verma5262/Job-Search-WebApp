@@ -17,14 +17,27 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Updated CORS configuration
+// Updated CORS Configuration
+const allowedOrigins = [
+  'https://jobsearchui-git-main-amit-verma-s-projects.vercel.app',
+  'https://jobsearch-mav6i75p3-amit-verma-s-projects.vercel.app', // Add any other allowed origins here
+];
+
 const corsOptions = {
-    origin: 'https://jobsearchui-git-main-amit-verma-s-projects.vercel.app', // Set to your frontend's exact URL
-    credentials: true // Allow credentials
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps, Postman, etc.)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true // Allow credentials (cookies, etc.)
 };
 
+// Apply CORS middleware
 app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // Preflight requests handling
+app.options('*', cors(corsOptions)); // Handle preflight requests
 
 const PORT = process.env.PORT || 3000;
 
@@ -35,10 +48,10 @@ app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 
 app.get("/", (req, res) => {
-    res.send("Hello User");
+  res.send("Hello User");
 });
 
 app.listen(PORT, () => {
-    connectDB();
-    console.log(`Server running at port ${PORT}`);
+  connectDB();
+  console.log(`Server running at port ${PORT}`);
 });
