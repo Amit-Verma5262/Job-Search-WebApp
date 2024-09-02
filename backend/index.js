@@ -24,6 +24,7 @@ app.use(bodyParser.urlencoded());
 const corsOptions = {
   origin: ['https://jobsearchui-git-main-amit-verma-s-projects.vercel.app','https://jobsearch-mav6i75p3-amit-verma-s-projects.vercel.app','http://localhost:5173'], // Add any other allowed origins here 
   methods:['GET','POST','PUT','DELETE'],
+  Access-Control-Allow-Credentials: true,
   credentials: true, // Allow credentials (cookies, etc.),
 };
 
