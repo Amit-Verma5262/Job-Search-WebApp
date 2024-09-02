@@ -7,6 +7,7 @@ import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
+import bodyParser from "body-parser";
 
 dotenv.config({});
 
@@ -16,19 +17,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded());
 
 // Updated CORS Configuration
-const allowedOrigins = [
-  'https://jobsearchui-git-main-amit-verma-s-projects.vercel.app',
-  'https://jobsearch-mav6i75p3-amit-verma-s-projects.vercel.app', // Add any other allowed origins here
-];
 
 const corsOptions = {
-  origin: allowedOrigins, 
+  origin: ['https://jobsearchui-git-main-amit-verma-s-projects.vercel.app','https://jobsearch-mav6i75p3-amit-verma-s-projects.vercel.app'], // Add any other allowed origins here 
   methods:['GET','POST','PUT','DELETE'],
   credentials: true, // Allow credentials (cookies, etc.),
-  SameSite:Lax,
-  Secure:False
 };
 
 // Apply CORS middleware
