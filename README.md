@@ -40,5 +40,5 @@ CORS (Cross-Origin Resource Sharing)
 
 ## Screenshots
 
-![App Screenshot](https://drive.google.com/file/d/1def236k5Q1WA4clGYzjAxZKAQxaOYghS/view?usp=drive_link)
+![App Screenshot](https://drive.google.com/uc?export=view&id=1def236k5Q1WA4clGYzjAxZKAQxaOYghS)
 
