@@ -11,6 +11,8 @@ import { toast } from 'sonner'
 import { useNavigate } from 'react-router-dom'
 import { Loader2 } from 'lucide-react'
 
+const companyArray = [];
+
 const PostJob = () => {
     const [input, setInput] = useState({
         title: "",
@@ -23,40 +25,36 @@ const PostJob = () => {
         position: 0,
         companyId: ""
     });
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading]= useState(false);
     const navigate = useNavigate();
 
     const { companies } = useSelector(store => store.company);
-
     const changeEventHandler = (e) => {
         setInput({ ...input, [e.target.name]: e.target.value });
     };
 
     const selectChangeHandler = (value) => {
-        const selectedCompany = companies.find((company) => company.name.toLowerCase() === value);
-        setInput({ ...input, companyId: selectedCompany ? selectedCompany._id : "" });
+        const selectedCompany = companies.find((company)=> company.name.toLowerCase() === value);
+        setInput({...input, companyId:selectedCompany._id});
     };
 
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
             setLoading(true);
-            console.log("Posting job with data:", input); // Log input data
-            const res = await axios.post(`${JOB_API_END_POINT}/post`, input, {
-                headers: {
-                    'Content-Type': 'application/json'
+            const res = await axios.post(`${JOB_API_END_POINT}/post`, input,{
+                headers:{
+                    'Content-Type':'application/json'
                 },
-                withCredentials: true
+                withCredentials:true
             });
-            console.log("Response received:", res); // Log response data
-            if (res.data.success) {
+            if(res.data.success){
                 toast.success(res.data.message);
                 navigate("/admin/jobs");
             }
         } catch (error) {
-            console.error("Error occurred:", error); // Log error for debugging
-            toast.error(error.response?.data?.message || "An error occurred");
-        } finally {
+            toast.error(error.response.data.message);
+        } finally{
             setLoading(false);
         }
     }
@@ -65,7 +63,7 @@ const PostJob = () => {
         <div>
             <Navbar />
             <div className='flex items-center justify-center w-screen my-5'>
-                <form onSubmit={submitHandler} className='p-8 max-w-4xl border border-gray-200 shadow-lg rounded-md'>
+                <form onSubmit = {submitHandler} className='p-8 max-w-4xl border border-gray-200 shadow-lg rounded-md'>
                     <div className='grid grid-cols-2 gap-2'>
                         <div>
                             <Label>Title</Label>
@@ -138,7 +136,7 @@ const PostJob = () => {
                             />
                         </div>
                         <div>
-                            <Label>No of Position</Label>
+                            <Label>No of Postion</Label>
                             <Input
                                 type="number"
                                 name="position"
@@ -156,21 +154,24 @@ const PostJob = () => {
                                     <SelectContent>
                                         <SelectGroup>
                                             {
-                                                companies.map((company) => (
-                                                    <SelectItem key={company._id} value={company.name.toLowerCase()}>{company.name}</SelectItem>
-                                                ))
+                                                companies.map((company) => {
+                                                    return (
+                                                        <SelectItem value={company?.name?.toLowerCase()}>{company.name}</SelectItem>
+                                                    )
+                                                })
                                             }
+
                                         </SelectGroup>
                                     </SelectContent>
                                 </Select>
                             )
                         }
-                    </div>
+                    </div> 
                     {
                         loading ? <Button className="w-full my-4"> <Loader2 className='mr-2 h-4 w-4 animate-spin' /> Please wait </Button> : <Button type="submit" className="w-full my-4">Post New Job</Button>
                     }
                     {
-                        companies.length === 0 && <p className='text-xs text-red-600 font-bold text-center my-3'>*Please register a company first, before posting jobs</p>
+                        companies.length === 0 && <p className='text-xs text-red-600 font-bold text-center my-3'>*Please register a company first, before posting a jobs</p>
                     }
                 </form>
             </div>

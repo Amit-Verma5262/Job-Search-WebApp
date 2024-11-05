@@ -7,41 +7,40 @@ import userRoute from "./routes/user.route.js";
 import companyRoute from "./routes/company.route.js";
 import jobRoute from "./routes/job.route.js";
 import applicationRoute from "./routes/application.route.js";
-import bodyParser from "body-parser";
+import path from "path";
 
 dotenv.config({});
 
 const app = express();
 
-// Middleware
+const _dirname=path.resolve();
+
+// middleware
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({extended:true}));
 app.use(cookieParser());
-app.use(bodyParser.urlencoded());
-
-// Updated CORS Configuration
-
 const corsOptions = {
-  origin: ['https://jobsearchui-git-main-amit-verma-s-projects.vercel.app','https://jobsearch-mav6i75p3-amit-verma-s-projects.vercel.app','http://localhost:5173'], // Add any other allowed origins here 
-  methods:['GET','POST','PUT','DELETE'],
-  credentials: true, // Allow credentials (cookies, etc.),
-};
+    origin:'http://localhost:5173',
+    credentials:true
+}
 
-// Apply CORS middleware
 app.use(cors(corsOptions));
+
 const PORT = process.env.PORT || 3000;
 
-// API routes
+
+// api's
 app.use("/api/v1/user", userRoute);
 app.use("/api/v1/company", companyRoute);
 app.use("/api/v1/job", jobRoute);
 app.use("/api/v1/application", applicationRoute);
 
-app.get("/", (req, res) => {
-  res.send("Hello User");
+app.use(express.static(path.join(_dirname,"/frontend/dist")));
+app.get('*',(_,res)=>{
+    res.sendFile(path.resolve(_dirname,"frontend","dist","index.html"));
 });
 
-app.listen(PORT, () => {
-  connectDB();
-  console.log(`Server running at port ${PORT}`);
-});
+app.listen(PORT,()=>{
+    connectDB();
+    console.log(`Server running at port ${PORT}`);
+})
