@@ -5,7 +5,7 @@ Developed a comprehensive job search web application to connect job seekers with
 
 **Visit it here** 
 
-bash`` https://job-search-webapp-opii.onrender.com ``
+`` https://job-search-webapp-opii.onrender.com ``
 
 
 
