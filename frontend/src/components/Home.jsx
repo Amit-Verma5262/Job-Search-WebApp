@@ -12,18 +12,22 @@ const Home = () => {
   useGetAllJobs();
   const { user } = useSelector(store => store.auth);
   const navigate = useNavigate();
+
   useEffect(() => {
     if (user?.role === 'recruiter') {
       navigate("/admin/companies");
     }
   }, []);
+
   return (
     <div>
       <Navbar />
-      <HeroSection />
-      <CategoryCarousel />
-      <LatestJobs />
-      <Footer />
+      <div className="pt-4 bg-[#F3F4F6]"> {/* Adjusted padding to reduce overlap */}
+        <HeroSection />
+        <CategoryCarousel />
+        <LatestJobs />
+        <Footer />
+      </div>
     </div>
   )
 }
