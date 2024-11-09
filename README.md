@@ -5,7 +5,9 @@ Developed a comprehensive job search web application to connect job seekers with
 
 **Visit it here** 
 
-`` https://job-search-webapp-opii.onrender.com ``
+`` https://job-search-webapp-opii.onrender.com/ ``
+
+And if you have any Idea or Feature to add **feel free to Contribute and follow the Guidelines**
 
 
 
